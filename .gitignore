@@ -1,0 +1,10 @@
+data/*
+!data/README.md
+outputs/
+.venv/
+.cache/
+.env
+__pycache__/
+*.pyc
+wandb/
+unsloth_compiled_cache/
