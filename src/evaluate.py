@@ -22,9 +22,13 @@ def single_quotes(sql):
     return re.sub(r'"([^"]*)"', lambda m: "'" + m.group(1).replace("'", "''") + "'", sql)
 
 
+def unquote_numbers(sql):
+    return re.sub(r"'(\d+(?:\.\d+)?)'", r"\1", sql)
+
+
 def normalize(sql):
     try:
-        return sqlglot.parse_one(single_quotes(sql), read="sqlite").sql(dialect="sqlite").lower()
+        return sqlglot.parse_one(unquote_numbers(single_quotes(sql)), read="sqlite").sql(dialect="sqlite").lower()
     except Exception:
         return None
 
