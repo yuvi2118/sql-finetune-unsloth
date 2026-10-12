@@ -2,6 +2,8 @@ data/*
 !data/README.md
 outputs/
 .venv/
+.venv-*/
+.ipynb_checkpoints/
 .cache/
 .env
 __pycache__/
