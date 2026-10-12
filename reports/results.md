@@ -11,3 +11,13 @@
 | LoRA SFT, 8000 examples, 2 epochs, r=16 | all | 900 | 100.0 | 99.6 | 84.0 |
 | LoRA SFT, 8000 examples, 2 epochs, r=16 | wikisql | 600 | 100.0 | 100.0 | 89.2 |
 | LoRA SFT, 8000 examples, 2 epochs, r=16 | spider | 300 | 100.0 | 98.7 | 73.7 |
+
+## Ablations (2000 train examples, QLoRA unless noted; all slices)
+
+| run | match | valid | peak VRAM GB | train s |
+|---|---|---|---|---|
+| control r16 lr2e-4 1ep | 75.3 | 99.1 | 3.5 | 117 |
+| r64 | 79.2 | 99.1 | 4.1 | 123 |
+| 16-bit LoRA | 75.4 | 98.1 | 7.6 | 108 |
+| lr 2e-5 | 67.7 | 97.1 | 3.5 | 117 |
+| 2 epochs | 78.4 | 98.9 | 3.5 | 230 |

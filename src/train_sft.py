@@ -4,6 +4,8 @@ import json
 from unsloth import FastLanguageModel
 from unsloth.chat_templates import train_on_responses_only
 
+import torch
+
 from datasets import Dataset
 from trl import SFTConfig, SFTTrainer
 
@@ -36,11 +38,12 @@ def main():
     ap.add_argument("--lr", type=float, default=2e-4)
     ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--grad-accum", type=int, default=2)
+    ap.add_argument("--no-4bit", action="store_true")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
     model, tok = FastLanguageModel.from_pretrained(
-        model_name=args.model, max_seq_length=2048, load_in_4bit=True
+        model_name=args.model, max_seq_length=2048, load_in_4bit=not args.no_4bit
     )
     model = FastLanguageModel.get_peft_model(
         model,
@@ -88,6 +91,7 @@ def main():
         response_part="<|start_header_id|>assistant<|end_header_id|>\n\n",
     )
     trainer.train()
+    print(f"peak_vram_gb={torch.cuda.max_memory_allocated() / 1e9:.1f}")
 
     model.save_pretrained(args.out)
     tok.save_pretrained(args.out)
